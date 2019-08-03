@@ -39,12 +39,10 @@ int readFuelSensor() {
 
 // MODBUS Read Holding Registers data to send to ECU
 byte data[] = {
-  0x01, // Slave ID
-  0x03, // Function Code 3 (read Analog Output Holding Registers)
-  0x10,  
-  0x00, // First regsiter address (4096)
-  0x00,
-  0x0a  // Number of regsiters to read (10)
+  0x01, 	// Slave ID
+  0x03, 	// Function Code 3 (read Analog Output Holding Registers)
+  0x10, 0x00, 	// First regsiter address (4096)
+  0x00, 0x0a  	// Number of regsiters to read (10)
 };
 
 byte dataRead[NUM_DATA_READ];
@@ -222,14 +220,14 @@ void loop() {
     if (crcReadValue == crcCalcReadValue) {
 //    Serial.println("CRC OK");
 
-      RPM = bytesToInt(dataRead[REG_START], dataRead[REG_START + 1]);
-      MAP = bytesToInt(dataRead[REG_START + 2], dataRead[REG_START + 3]);
-      MAT = bytesToInt(dataRead[REG_START + 4], dataRead[REG_START + 5]);   
-      WT = bytesToInt(dataRead[REG_START + 6], dataRead[REG_START + 7]);  
-      AUXT = bytesToInt(dataRead[REG_START + 8], dataRead[REG_START + 9]);
-      AFR = bytesToInt(dataRead[REG_START + 10], dataRead[REG_START + 11]);
-      TPS = bytesToInt(dataRead[REG_START + 14], dataRead[REG_START + 15]);
-      BAT = bytesToInt(dataRead[REG_START + 18], dataRead[REG_START + 19]);
+      RPM = bytesToInt(dataRead[REG_START], dataRead[REG_START + 1]); 		// Register 4096
+      MAP = bytesToInt(dataRead[REG_START + 2], dataRead[REG_START + 3]);	// Register 4097
+      MAT = bytesToInt(dataRead[REG_START + 4], dataRead[REG_START + 5]);	// Register 4098
+      WT = bytesToInt(dataRead[REG_START + 6], dataRead[REG_START + 7]);	// Register 4099
+      AUXT = bytesToInt(dataRead[REG_START + 8], dataRead[REG_START + 9]);	// Register 4100
+      AFR = bytesToInt(dataRead[REG_START + 10], dataRead[REG_START + 11]);	// Register 4101
+      TPS = bytesToInt(dataRead[REG_START + 14], dataRead[REG_START + 15]);	// Register 4103
+      BAT = bytesToInt(dataRead[REG_START + 18], dataRead[REG_START + 19]);	// Register 4105
       FUEL = (UInt16)readFuelSensor();
 
 //    Serial.println(String("FUEL: ") + FUEL);
