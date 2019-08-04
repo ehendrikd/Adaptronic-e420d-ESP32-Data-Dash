@@ -1,3 +1,15 @@
+#define DEBUG
+
+#ifdef DEBUG
+  #define DEBUG_BEGIN Serial.begin(115200);
+  #define DEBUG_PRINT(...) Serial.print(__VA_ARGS__)
+  #define DEBUG_PRINTLN(...) Serial.println(__VA_ARGS__)
+#else
+  #define DEBUG_BEGIN
+  #define DEBUG_PRINT(...)
+  #define DEBUG_PRINTLN(...)
+#endif
+
 #include <WiFi.h>
 #include <driver/adc.h>
 
@@ -97,18 +109,21 @@ Adafruit_GPS GPS(&GPSSerial);
 uint32_t timer = millis();
 
 void setup() {
-  Serial.begin(115200);
-  //Serial3.begin(57600, SERIAL_8N1, 16, 17);
-  Serial3.begin(57600, SERIAL_8N1, 5, 18);
+  // Debug via USB
+  DEBUG_BEGIN
 
+  // Connect to ECU via MAX3232 on GIOP5 (pin 29) & GIOP18 (pin 30)
+  Serial3.begin(57600, SERIAL_8N1, 5, 18); 
+
+  // MODBUS read registers data always the same, calculate it only once
   crcValue =  ModRTU_CRC((char *)data, 6);
  
   // Connect to Wi-Fi network with SSID and password
   WiFi.softAP(ssid, password, 1, 1, 2);
 
   IPAddress IP = WiFi.softAPIP();
-  Serial.print("AP IP address: ");
-  Serial.println(IP);
+  DEBUG_PRINT("AP IP address: ");
+  DEBUG_PRINT(IP);
   
   server.begin();
 
@@ -125,28 +140,46 @@ void setup() {
 }
 
 void loop() {
-  // read data from the GPS in the 'main loop'
-  char c = GPS.read();
-  
-  if (c) { 
-    Serial.print(c);
-  }
+  // Check for new GPS data
   if (GPS.newNMEAreceived()) {
     if (GPS.parse(GPS.lastNMEA()))  {  
-/*     
-    Serial.print("\nTime: ");
-    Serial.print(GPS.hour, DEC); Serial.print(':');
-    Serial.print(GPS.minute, DEC); Serial.print(':');
-    Serial.print(GPS.seconds, DEC); Serial.print('.');
-    Serial.println(GPS.milliseconds);
-    Serial.print("Date: ");
-    Serial.print(GPS.day, DEC); Serial.print('/');
-    Serial.print(GPS.month, DEC); Serial.print("/20");
-    Serial.println(GPS.year, DEC);
-    Serial.print("Fix: "); Serial.print((int)GPS.fix);
-    Serial.print(" quality: "); Serial.println((int)GPS.fixquality);
-*/
+     
+    DEBUG_PRINT("\nTime: ");
+    DEBUG_PRINT(GPS.hour, DEC); 
+    DEBUG_PRINT(':');
+    DEBUG_PRINT(GPS.minute, DEC); 
+    DEBUG_PRINT(':');
+    DEBUG_PRINT(GPS.seconds, DEC); 
+    DEBUG_PRINT('.');
+    DEBUG_PRINTLN(GPS.milliseconds);
+    DEBUG_PRINT("Date: ");
+    DEBUG_PRINT(GPS.day, DEC); 
+    DEBUG_PRINT('/');
+    DEBUG_PRINT(GPS.month, DEC); 
+    DEBUG_PRINT("/20");
+    DEBUG_PRINTLN(GPS.year, DEC);
+    DEBUG_PRINT("Fix: "); 
+    DEBUG_PRINT((int)GPS.fix);
+    DEBUG_PRINT(" quality: "); 
+    DEBUG_PRINTLN((int)GPS.fixquality);
+
       if (GPS.fix) {
+        // We have a fix, store data
+        DEBUG_PRINT("Location: ");
+        DEBUG_PRINT(GPS.latitude, 4); 
+        DEBUG_PRINT(GPS.lat);
+        DEBUG_PRINT(", ");
+        DEBUG_PRINT(GPS.longitude, 4); 
+        DEBUG_PRINTLN(GPS.lon);
+        DEBUG_PRINT("Speed (knots): "); 
+        DEBUG_PRINTLN(GPS.speed);
+        DEBUG_PRINT("Angle: "); 
+        DEBUG_PRINTLN(GPS.angle);
+        DEBUG_PRINT("Altitude: "); 
+        DEBUG_PRINTLN(GPS.altitude);
+        DEBUG_PRINT("Satellites: "); 
+        DEBUG_PRINTLN((int)GPS.satellites);
+
         gpsFix = 1;
         gpsLatitude = GPS.latitude;
         gpsLongitude = GPS.longitude;
@@ -157,16 +190,6 @@ void loop() {
         gpsAlt = GPS.altitude;
         gpsQual = (int)GPS.fixquality;
         gpsSats = (int)GPS.satellites;
-/*        
-        Serial.print("Location: ");
-        Serial.print(GPS.latitude, 4); Serial.print(GPS.lat);
-        Serial.print(", ");
-        Serial.print(GPS.longitude, 4); Serial.println(GPS.lon);
-        Serial.print("Speed (knots): "); Serial.println(GPS.speed);
-        Serial.print("Angle: "); Serial.println(GPS.angle);
-        Serial.print("Altitude: "); Serial.println(GPS.altitude);
-        Serial.print("Satellites: "); Serial.println((int)GPS.satellites);
-*/        
       } else {
         gpsFix = 0;
         gpsLatitude = 0;
@@ -178,28 +201,30 @@ void loop() {
         gpsAlt = 0;
         gpsQual = 0;
         gpsSats = 0;
-        
       }
     }
   } 
 
   if (timer > millis()) {
+    // Roll over
     timer = millis();
   }
 
+  // Store ECU data and check for incoming WiFi client every 100 ms
   if (millis() - timer > 100) {
     timer = millis(); 
-/*
-  Serial.print("crc = 0x");
-  Serial.println(crcValue, HEX);
-  Serial.println(crcValue >> 8, HEX); 
-  Serial.println(crcValue & 0xff, HEX); 
-*/
 
+  DEBUG_PRINT("crc = 0x");
+  DEBUG_PRINTLN(crcValue, HEX);
+//  DEBUG_PRINTLN(crcValue >> 8, HEX); 
+//  DEBUG_PRINTLN(crcValue & 0xff, HEX); 
+
+    // Write read registers data
     for (int i = 0; i < 6; i++) {
       Serial3.write(data[i]);
     }
   
+    // Write read registers CRC value
     Serial3.write(crcValue & 0xff);
     Serial3.write(crcValue >> 8);
   
@@ -207,6 +232,7 @@ void loop() {
   
     int dataReadIndex = 0;
 
+    // Read MODBUS reply data
     while (Serial3.available() && dataReadIndex < NUM_DATA_READ) {
       dataRead[dataReadIndex++] = (byte)Serial3.read();
     }
@@ -214,11 +240,12 @@ void loop() {
     crcReadValue = bytesToInt(dataRead[NUM_DATA_READ - 1], dataRead[NUM_DATA_READ - 2]);
     crcCalcReadValue =  ModRTU_CRC((char *)dataRead, NUM_DATA_READ - 2);
 
-//    Serial.println(crcReadValue, HEX);
-//    Serial.println(crcCalcReadValue, HEX);
+    DEBUG_PRINTLN(crcReadValue, HEX);
+    DEBUG_PRINTLN(crcCalcReadValue, HEX);
 
+    // Check reply CRC
     if (crcReadValue == crcCalcReadValue) {
-//    Serial.println("CRC OK");
+      DEBUG_PRINTLN("CRC OK");
 
       RPM = bytesToInt(dataRead[REG_START], dataRead[REG_START + 1]); 		// Register 4096
       MAP = bytesToInt(dataRead[REG_START + 2], dataRead[REG_START + 3]);	// Register 4097
@@ -230,22 +257,25 @@ void loop() {
       BAT = bytesToInt(dataRead[REG_START + 18], dataRead[REG_START + 19]);	// Register 4105
       FUEL = (UInt16)readFuelSensor();
 
-//    Serial.println(String("FUEL: ") + FUEL);
-//    Serial.println(String("BAT: ") + BAT);
+      DEBUG_PRINTLN(String("FUEL: ") + FUEL);
+      DEBUG_PRINTLN(String("BAT: ") + BAT);
     }  
   }
 
-  WiFiClient client = server.available();   // Listen for incoming clients
+  // Listen for incoming clients
+  WiFiClient client = server.available();   
 
-  if (client) {                             // If a new client connects,
-    String currentLine = "";                // make a String to hold incoming data from the client
+  if (client) {                             
+    String currentLine = "";                
     
-    while (client.connected()) {            // loop while the client's connected
-      if (client.available()) {             // if there's bytes to read from the client,
-        char c = client.read();             // read a byte, then
-//        Serial.write(c);                    // print it out the serial monitor
+    while (client.connected()) {            
+      if (client.available()) {             
+        char c = client.read();             
+        DEBUG_PRINT(c);                    
+        
         header += c;
-        if (c == '\n') {                    // if the byte is a newline character
+
+        if (c == '\n') {                    
           if (currentLine.length() == 0) {
             // Create JSON header
             client.println("HTTP/1.1 200 OK");
