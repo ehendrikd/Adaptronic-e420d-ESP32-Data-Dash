@@ -131,10 +131,10 @@ void setup() {
   GPS.begin(9600);
   // uncomment this line to turn on RMC (recommended minimum) and GGA (fix data) including altitude
   GPS.sendCommand(PMTK_SET_NMEA_OUTPUT_RMCGGA);
-  // Set the update rate
-  GPS.sendCommand(PMTK_SET_NMEA_UPDATE_5HZ); // 5 Hz update rate
-  // Request updates on antenna status, comment out to keep quiet
-  GPS.sendCommand(PGCMD_ANTENNA);
+  // Set the fix rate at 5 Hz
+  GPS.sendCommand(PMTK_API_SET_FIX_CTL_5HZ);
+  // Set the update rate at 10 Hz
+  GPS.sendCommand(PMTK_SET_NMEA_UPDATE_10HZ);
 
   delay(1000);  
 }
