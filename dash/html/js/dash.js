@@ -21,7 +21,7 @@ var showEstimatedQuota = null;
 
 // Install service worker to cache assets in PWA
 if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("js/serviceWorker.js");
+    navigator.serviceWorker.register("serviceWorker.js");
 }
 
 document.addEventListener("DOMContentLoaded", function(event) {
@@ -313,7 +313,7 @@ function xhrFailure(xhr) {
     showStatus(gpsConnectStatus, false);
     update(null);
     logTimestamp = null;
-    getECUData();
+    setTimeout(getECUData, 500);
 }
 
 function xhrSuccess(xhr) {
@@ -326,8 +326,8 @@ function xhrSuccess(xhr) {
 
 // Get the data from the ECU
 function getECUData() {
-    if (get['simulate']) {
-        // Simulate the ECU data if 'simulate' GET variable exists
+    if (simulate) {
+        // Simulate the ECU data
         setTimeout(function() {
             if (simulateECUConnected) {
                 xhrSuccess({response: JSON.stringify(simulatedValues())});

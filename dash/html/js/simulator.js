@@ -6,7 +6,8 @@ window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(a, name, value)
     get[name] = value;
 });
 
-// Turn on/off simulate ECU and GPS
+// Turn on/off simulate, ECU and GPS
+var simulate = get['simulate'];
 var simulateECUConnected = get['ecu-connected'];
 var simulateGPSConnected = get['gps-connected'];
 
