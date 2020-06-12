@@ -135,7 +135,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
                         index.openCursor(logTimestamp).onsuccess = onSuccess;
                     } else {
                         refreshLogDaySelect();
-                        enableSelects(true);
                     }
                 };
 
@@ -169,6 +168,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 } else {
                     if (action == "download") {
                         exportCSVFile(logEntries, formatDate(selectedLog, true) + "_" + formatTime(selectedLog, true));
+                        enableSelects(true);
                     } else {
                         refreshLogDaySelect();
                     }
@@ -195,7 +195,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     }
 
     getECUData();
-    showEstimatedQuota();
+    refreshLogDaySelect();
 });
 
 function enableSelects(enable) {
@@ -225,6 +225,10 @@ function addLogSelect(timestamp, numEntries) {
 
 // Update log select elements when logs added/deleted
 function refreshLogDaySelect() {
+    enableSelects(false);
+
+    showEstimatedQuota();
+
     var index = db.transaction("data").objectStore("data").index("log_timestamp");
 
     logDays = {};
@@ -271,6 +275,8 @@ function refreshLogDaySelect() {
                 option.text = formatDate(key, false);
                 logDaySelect.add(option);
             }
+    
+            enableSelects(true);
         }
     };
 }
@@ -312,7 +318,10 @@ function showStatus(element, status) {
 }
 
 function xhrFailure(xhr) {
-    logsDiv.style.display = "block";
+    if (ogsDiv.style.display == "none") {
+        logsDiv.style.display = "block";
+        refreshLogDaySelect();
+    }
     showStatus(connectStatus, false);
     showStatus(gpsConnectStatus, false);
     update(null);
@@ -393,12 +402,9 @@ function update(values) {
 
     // Log data
     if (db) {
-        var doRefreshLogSelect = false;
-
         if (!logTimestamp) {
             // New log, save timestamp
             logTimestamp = new Date().getTime();
-            doRefreshLogSelect = true;
         }
 
         db.transaction(["data"], 'readwrite').objectStore("data").add({ 
@@ -422,13 +428,7 @@ function update(values) {
             'gps_qual': hasFix ? values['gpsQual'] : null,
             'gps_sats': hasFix ? values['gpsSats'] : null
         });
-
-        if (doRefreshLogSelect) {
-            refreshLogDaySelect();
-        }
     }
-
-    showEstimatedQuota();
 }
 
 // Show the quota text
