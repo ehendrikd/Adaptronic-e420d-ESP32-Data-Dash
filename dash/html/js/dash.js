@@ -1,6 +1,3 @@
-// GET variables passed in via URL
-var get = [];
-
 // Constants for quota calculations
 var ONE_MB = 1048576;
 var DAY_IN_MILLISECONDS = 86400000;
@@ -26,11 +23,6 @@ var showEstimatedQuota = null;
 if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("js/serviceWorker.js");
 }
-
-// Populate GET url variables
-window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(a, name, value) {
-    get[name] = value;
-});
 
 document.addEventListener("DOMContentLoaded", function(event) {
     // Get guauge elements

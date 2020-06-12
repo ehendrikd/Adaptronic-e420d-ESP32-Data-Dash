@@ -1,5 +1,14 @@
-var simulateECUConnected = false;
-var simulateGPSConnected = false;
+// GET variables passed in via URL
+var get = [];
+
+// Populate GET url variables
+window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(a, name, value) {
+    get[name] = value;
+});
+
+// Turn on/off simulate ECU and GPS
+var simulateECUConnected = get['ecu-connected'];
+var simulateGPSConnected = get['gps-connected'];
 
 // Generate a sin wave value
 var getSinValue = function(min, max, now) {
