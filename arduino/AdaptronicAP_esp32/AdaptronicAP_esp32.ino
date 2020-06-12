@@ -73,12 +73,12 @@ String header;
 UInt16 RPM = 0;
 UInt16 MAP = 0;
 UInt16 MAT = 0;   
-UInt16 WT = 0;  
+UInt16 WT = 0; // Water temp  
 UInt16 AUXT = 0;
 UInt16 AFR = 0;
 UInt16 TPS = 0;
 UInt16 BAT = 0;
-UInt16 FUEL = 0;
+UInt16 FUEL = 0; // Fuel sender
 
 // For CRC
 UInt16 crcValue = 0;
@@ -287,11 +287,15 @@ void loop() {
             // Serve JSON data
             String json = 
               String("{") +
-                String("\"temp\":") + String(WT) + String(",") +
+                String("\"wt\":") + String(WT) + String(",") +
                 String("\"tps\":") + String(TPS) + String(",") +
                 String("\"bat\":") + String(BAT) + String(",") +
                 String("\"fuel\":") + String(FUEL) + String(",") +
                 String("\"rpm\":") + String(RPM) + String(",") +
+                String("\"map\":") + String(MAP) + String(",") +
+                String("\"mat\":") + String(MAT) + String(",") +
+                String("\"auxt\":") + String(AUXT) + String(",") +
+                String("\"afr\":") + String(AFR) + String(",") +
                 String("\"gpsFix\":") + String(gpsFix) + 
                   (gpsFix ? (
                     String(",") +

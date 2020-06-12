@@ -1,8 +1,10 @@
+body {
+  font-family: sans-serif;
+}
 .gauge-container {
   width: 150px;
   height: 150px;
   display: block;
-  padding: 10px;
 }
 .gauge-container > .gauge > .dial {
   stroke: #eee;
@@ -16,20 +18,9 @@
 }
 .gauge-container > .gauge > .value-text {
   fill: rgb(47, 227, 255);
-  font-family: sans-serif;
   font-weight: bold;
   font-size: 1em;
 }    
-
-.wrapper {
-  height: 100px;
-  float: left;
-  margin: 7px;
-  overflow: hidden;
-}
-.wrapper > .gauge-container {
-  margin: 0;
-}
 .gauge-container.two {
 }
 .gauge-container.two > .gauge > .dial {
@@ -50,11 +41,12 @@
   color: #000;
   font-weight: 100;
   position: absolute;
-  width: 87%;
+  width: 100%;
   display: inline-block;
   text-align: center;
 /*  border: 1px solid black;*/
   font-family: Hevletica, sans-serif;
+  top: 45px;
 } 
 .gauge {
 /*       display: block;*/
@@ -63,14 +55,8 @@
     /*visibility: hidden;*/
 }
 
-#statusGauge {
-    left: 0px;
-    width: 10%;
-    visibility: hidden;
-}
-
-#tempGauge {
-    top: 25%;
+#waterTempGauge {
+    top: 190px;
     left: 0%;
     width: 15%;
 }
@@ -82,21 +68,21 @@
 }
 
 #rpmGauge {
-    top: 0px;
+    top: 20px;
     height: 76%;
     width: 76%;
     left: -38%;
     margin-left: 50%;
 }
 #speedGauge {
-    top: 30%;
+    top: 190px;
     height: 20%;
     width: 20%;
     left: -10%;
     margin-left: 50%;
 }
 #batGauge {
-    top: 25%;
+    top: 190px;
     right: 0%;
     width: 15%;
 }    
@@ -108,8 +94,8 @@
 }
 .statusLight {
     width: 5%;
-    height: 5%;
-    top: 50%;
+    height: 25px;
+    top: 300px;
     margin-left: 50%;
     border: 5px solid black;
     font-family: Hevletica, sans-serif;    
@@ -123,4 +109,16 @@
 }
 #gpsConnectStatus {
 	left: 15%;
-}    
+}   
+#logs {
+	position: absolute;
+	width: 100%;
+	text-align: center;
+	top: 2px;
+}
+#quota {
+	position: absolute;
+	width: 100%;
+	text-align: center;
+	top: 27px;
+} 

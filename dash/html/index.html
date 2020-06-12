@@ -4,18 +4,39 @@
     <title>Dashboard</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" type="text/css" href="css/dash.css" />
+    <link rel="apple-touch-icon" href="/custom_icon.png">
+    <link rel="apple-touch-startup-image" href="/launch.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Dashboard">
+    <meta name="apple-mobile-web-app-title" content="Dashboard">
+    <meta name="msapplication-starturl" content="/">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <script src="lib/gauge/gauge.min.js"></script>
+    <script src="js/simulator.js"></script>
+    <script src="js/csv.js"></script>
     <script src="js/dash.js"></script>
   </head>
   <body>
-    <div class="wrapper"><div id="statusGauge" class="gauge-container two gauge"></div></div>
-    <div class="wrapper"><div id="tempGauge" class="gauge-container two gauge"><span class="value-text" style="top: 25%">TEMP</span></div></div>
-    <div class="wrapper"><div id="tpsGauge" class="gauge-container two gauge"><span class="value-text" style="top: 25%">TPS</span></div></div>
-    <div class="wrapper"><div id="speedGauge" class="gauge-container two gauge"><span class="value-text" style="top: 50%">SPEED</span></div></div>
-    <div class="wrapper"><div id="rpmGauge" class="gauge-container two gauge"></div></div>
-    <div class="wrapper"><div id="batGauge" class="gauge-container two gauge"><span class="value-text" style="top: 25%">BAT</span></div></div>
-    <div class="wrapper"><div id="fuelGauge" class="gauge-container two gauge"><span class="value-text" style="top: 25%">FUEL</span></div></div>
+    <div id="waterTempGauge" class="gauge-container two gauge"><span class="value-text">TEMP</span></div>
+    <div id="tpsGauge" class="gauge-container two gauge"><span class="value-text">TPS</span></div>
+    <div id="speedGauge" class="gauge-container two gauge"><span class="value-text">SPEED</span></div>
+    <div id="rpmGauge" class="gauge-container two gauge"></div>
+    <div id="batGauge" class="gauge-container two gauge"><span class="value-text">BAT</span></div>
+    <div id="fuelGauge" class="gauge-container two gauge"><span class="value-text">FUEL</span></div>
     <div id="connectStatus" class="gauge statusLight">ECU</div>
     <div id="gpsConnectStatus" class="gauge statusLight">GPS</div>
+    <div id="logs">
+      <select id="logActionSelect">
+        <option value="">Select log action</option>
+        <option value="download">Download log CSV</option>
+        <option value="delete-day">Delete logs on day</option>
+        <option value="delete-log">Delete log</option>
+      </select>
+      <select id="logDaySelect" disabled><option value="-1">Select log day</option></select>
+      <select id="logSelect" disabled><option value="-1">Select log time</option></select>
+    </div>
+    <div id="quota"></div>
   </body>
 </html>
