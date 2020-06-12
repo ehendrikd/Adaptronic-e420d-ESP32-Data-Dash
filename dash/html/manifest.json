@@ -4,7 +4,7 @@
   "description": "PWA Dashboard - https://github.com/ehendrikd/Adaptronic-e420d-ESP32-Data-Dash",
   "lang": "en-AU",
   "scope": "/Adaptronic-e420d-ESP32-Data-Dash/dash/html/",
-  "start_url": "./index.html",
+  "start_url": "./index.html?simulate=t&ecu-connected=t",
   "display": "standalone",
   "orientation": "landscape",
   "background_color": "white",
