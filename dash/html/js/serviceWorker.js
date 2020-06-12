@@ -3,11 +3,12 @@ self.addEventListener("install", function(event) {
     console.log("serviceWorker installed");
     event.waitUntil(caches.open("dash_cache").then(function(cache) {
         return cache.addAll([
-            './index.html',
-            './js/dash.js',
-            './js/csv.js',
-            './lib/gauge/gauge.min.js',
-            './css/dash.css'
+            '../index.html',
+            './dash.js',
+            './csv.js',
+            './simulator.js',
+            '../lib/gauge/gauge.min.js',
+            '../css/dash.css'
         ]);
     }));
 });
