@@ -3,7 +3,7 @@ var ONE_MB = 1048576;
 var DAY_IN_MILLISECONDS = 86400000;
 
 // HTML elements
-var waterTempGauge, tpsGauge, speedGauge, rpmGauge, batGauge, fuelGauge, connectStatus, logActionSelect, logDaySelect, logSelect, sourceSelect;
+var waterTempGauge, tpsGauge, speedGauge, rpmGauge, batGauge, fuelGauge, connectStatus, gpsConnectStatus, logsDiv, logActionSelect, logDaySelect, logSelect, sourceSelect;
 
 // Fuel smoothing
 var fuelSmoothVal = 5.0;
@@ -36,6 +36,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
     // Get status elements
     connectStatus = document.getElementById("connectStatus");
     gpsConnectStatus = document.getElementById("gpsConnectStatus");
+
+    // Get log div
+    logsDiv = document.getElementById("logsDiv");
 
     // Get select elements
     logActionSelect = document.getElementById("logActionSelect");
@@ -309,6 +312,7 @@ function showStatus(element, status) {
 }
 
 function xhrFailure(xhr) {
+    logsDiv.style.display = "block";
     showStatus(connectStatus, false);
     showStatus(gpsConnectStatus, false);
     update(null);
@@ -318,6 +322,7 @@ function xhrFailure(xhr) {
 
 function xhrSuccess(xhr) {
     var values = JSON.parse(xhr.response);
+    logsDiv.style.display = "none";
     update(values);
     showStatus(connectStatus, true);
     showStatus(gpsConnectStatus, values['gpsFix'] == 1);
