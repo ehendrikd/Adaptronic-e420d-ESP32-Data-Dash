@@ -2,6 +2,7 @@
   "name": "Adaptronic-e420d-ESP32-Data-Dash",
   "short_name": "Dashboard",
   "lang": "en-AU",
-  "start_url": "/",
+  "start_url": "/Adaptronic-e420d-ESP32-Data-Dash/dash/html/",
+  "scope": "/Adaptronic-e420d-ESP32-Data-Dash/dash/html/",
   "display": "standalone"
 }
