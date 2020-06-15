@@ -107,11 +107,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
                         addLogSelect(logTimestamp, numEntries);
                         logTimestamp = dayLogs[++logIndex];
                         numEntries = 0;                        
-                        index.openCursor(logTimestamp).onsuccess = onSuccess;
+                        index.openKeyCursor(logTimestamp).onsuccess = onSuccess;
                     }
                 };
 
-                index.openCursor(logTimestamp).onsuccess = onSuccess;
+                index.openKeyCursor(logTimestamp).onsuccess = onSuccess;
             }
         } else if (action == "delete-day") {
             if (selectedLogDay != -1 && "delete" == prompt("Enter \"delete\" to confirm you want to delete all logs on this day")) {
@@ -128,17 +128,17 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     var cursor = event.target.result;
 
                     if (cursor && logTimestamp) {
-			objectStore.delete(cursor.value.timestamp);
+			objectStore.delete(cursor.primaryKey);
                         cursor.continue();
                     } else if (logIndex < dayLogs.length) {
                         logTimestamp = dayLogs[++logIndex];
-                        index.openCursor(logTimestamp).onsuccess = onSuccess;
+                        index.openKeyCursor(logTimestamp).onsuccess = onSuccess;
                     } else {
                         refreshLogDaySelect();
                     }
                 };
 
-                index.openCursor(logTimestamp).onsuccess = onSuccess;
+                index.openKeyCursor(logTimestamp).onsuccess = onSuccess;
             }
         }
     });
@@ -154,26 +154,32 @@ document.addEventListener("DOMContentLoaded", function(event) {
             var index = db.transaction("data").objectStore("data").index("log_timestamp");
             var logEntries = [];
 
-            index.openCursor(selectedLog).onsuccess = function(event) {
-                var cursor = event.target.result;
+            if (action == "download") {
+                index.openCursor(selectedLog).onsuccess = function(event) {
+                    var cursor = event.target.result;
 
-                if (cursor) {
-                    if (action == "download") {
+                    if (cursor) {
                         logEntries.push(cursor.value);
-                    } else {
-                        db.transaction(["data"], 'readwrite').objectStore("data").delete(cursor.value.timestamp);
-                    }
 
-                    cursor.continue();
-                } else {
-                    if (action == "download") {
+                    	cursor.continue();
+                    } else {
                         exportCSVFile(logEntries, formatDate(selectedLog, true) + "_" + formatTime(selectedLog, true));
                         enableSelects(true);
+                    }
+                };
+            } else {
+                index.openKeyCursor(selectedLog).onsuccess = function(event) {
+                    var cursor = event.target.result;
+
+                    if (cursor) {
+                        db.transaction(["data"], 'readwrite').objectStore("data").delete(cursor.primaryKey);
+
+                    	cursor.continue();
                     } else {
                         refreshLogDaySelect();
                     }
-                }
-            };
+                };
+            }
         }
     });
 
@@ -225,6 +231,11 @@ function addLogSelect(timestamp, numEntries) {
 
 // Update log select elements when logs added/deleted
 function refreshLogDaySelect() {
+    if (!db) {
+        return;
+    }
+
+    logActionSelect.selectedIndex = 0;
     enableSelects(false);
 
     showEstimatedQuota();
@@ -318,7 +329,7 @@ function showStatus(element, status) {
 }
 
 function xhrFailure(xhr) {
-    if (ogsDiv.style.display == "none") {
+    if (logsDiv.style.display == "none") {
         logsDiv.style.display = "block";
         refreshLogDaySelect();
     }

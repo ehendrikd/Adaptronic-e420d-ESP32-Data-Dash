@@ -1,0 +1,11 @@
+CACHE MANIFEST
+
+index.html
+js/dash.js
+js/csv.js
+js/simulator.js
+lib/gauge/gauge.min.js
+css/dash.css
+manifest.json
+icon/192x192.png
+icon/512x512.png
