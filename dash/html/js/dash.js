@@ -3,7 +3,7 @@ var ONE_MB = 1048576;
 var DAY_IN_MILLISECONDS = 86400000;
 
 // HTML elements
-var waterTempGauge, tpsGauge, speedGauge, rpmGauge, batGauge, fuelGauge, connectStatus, gpsConnectStatus, logsDiv, logActionSelect, logDaySelect, logSelect, sourceSelect;
+var waterTempGauge, afrGauge, speedGauge, rpmGauge, batGauge, fuelGauge, connectStatus, gpsConnectStatus, logsDiv, logActionSelect, logDaySelect, logSelect, sourceSelect;
 
 // Fuel smoothing
 var fuelSmoothVal = 5.0;
@@ -27,7 +27,7 @@ if ("serviceWorker" in navigator) {
 document.addEventListener("DOMContentLoaded", function(event) {
     // Get guauge elements
     waterTempGauge = Gauge(document.getElementById("waterTempGauge"), {max: 120, dialStartAngle: 180, dialEndAngle: 0});
-    tpsGauge = Gauge(document.getElementById("tpsGauge"), {max: 150, dialStartAngle: 180, dialEndAngle: 0});
+    afrGauge = Gauge(document.getElementById("afrGauge"), {max: 23, dialStartAngle: 0, dialEndAngle: 0});
     speedGauge = Gauge(document.getElementById("speedGauge"), {max: 250, dialStartAngle: 180, dialEndAngle: 0});
     rpmGauge = Gauge(document.getElementById("rpmGauge"), {max: 9000, dialStartAngle: 180, dialEndAngle: 0});
     batGauge = Gauge(document.getElementById("batGauge"), {max: 15, dialStartAngle: 180, dialEndAngle: 0, label: function(value) {return Math.round(value * 100) / 100}});
@@ -387,7 +387,7 @@ function update(values) {
     }
 
     var newWaterTemp = values['wt'] == 128 ? 0 : values['wt']; // 128 is undefined from ECU
-    var newTps = values['tps'] == 255 ? 0 : values['tps']; // 255 is undefined from ECU
+    var newAfr = values['afr'] == 255 ? 0 : values['afr']; // 255 is undefined from ECU
     var hasFix = values['gpsFix'] == 1;
     var newGpsSpeed = hasFix ? values['gpsSpeed'] * 1.852 : 0; // Convert knots to km/h
     var newRpm = values['rpm'];
@@ -395,7 +395,7 @@ function update(values) {
     var newFuel = values['fuel'];
 
     waterTempGauge.setValue(newWaterTemp);
-    tpsGauge.setValue(newTps);
+    afrGauge.setValue(newAfr);
     speedGauge.setValue(newGpsSpeed);
     rpmGauge.setValue(newRpm);
     batGauge.setValue(newBat);
@@ -422,14 +422,14 @@ function update(values) {
             'timestamp': new Date().getTime(),
             'log_timestamp': logTimestamp,
             'water_temp': newWaterTemp,
-            'tps': newTps,
+            'tps': values['tps'],
             'rpm': newRpm,
             'bat': newBat,
             'fuel': smoothedFuel,
             'map': values['map'],
             'mat': values['mat'],
             'aux_temp': values['auxt'],
-            'afr': values['afr'],
+            'afr': newAfr,
             'gps_speed': hasFix ? newGpsSpeed : null,
             'gps_latitude': hasFix ? values['gpsLatitude'] : null,
             'gps_longitude': hasFix ? values['gpsLongitude'] : null,

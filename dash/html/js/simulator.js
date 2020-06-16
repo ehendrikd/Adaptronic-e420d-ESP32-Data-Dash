@@ -30,7 +30,7 @@ function simulatedValues() {
         map: getSinValue(0, 30, now += 500),
         mat: getSinValue(0, 120, now += 500),
         auxt: getSinValue(0, 120, now += 500),
-        afr: getSinValue(0, 25, now += 500),
+        afr: getSinValue(0, 23, now += 500),
         gpsFix: 0
     };
 

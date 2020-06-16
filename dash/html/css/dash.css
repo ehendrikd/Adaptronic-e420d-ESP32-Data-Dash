@@ -61,17 +61,17 @@ body {
     width: 15%;
 }
 
-#tpsGauge {
+#afrGauge {
     top: 0%;
     left: 15%;
     width: 15%;
 }
 
 #rpmGauge {
-    top: 20px;
-    height: 76%;
-    width: 76%;
-    left: -38%;
+    top: 25px;
+    height: 85%;
+    width: 85%;
+    left: -43%;
     margin-left: 50%;
 }
 #speedGauge {
@@ -114,11 +114,11 @@ body {
 	position: absolute;
 	width: 100%;
 	text-align: center;
-	top: 2px;
+	bottom: 2px;
 }
 #quota {
 	position: absolute;
 	width: 100%;
 	text-align: center;
-	top: 27px;
+	bottom: 22px;
 } 
