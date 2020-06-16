@@ -205,9 +205,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
 });
 
 function enableSelects(enable) {
+/*    
     logActionSelect.disabled = !enable;
     logDaySelect.disabled = !enable;
     logSelect.disabled = !enable;
+*/
 }
 
 function resetLogSelect() {
