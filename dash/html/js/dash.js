@@ -27,7 +27,7 @@ if ("serviceWorker" in navigator) {
 document.addEventListener("DOMContentLoaded", function(event) {
     // Get guauge elements
     waterTempGauge = Gauge(document.getElementById("waterTempGauge"), {max: 120, dialStartAngle: 180, dialEndAngle: 0});
-    afrGauge = Gauge(document.getElementById("afrGauge"), {max: 23, dialStartAngle: 0, dialEndAngle: 0});
+    afrGauge = Gauge(document.getElementById("afrGauge"), {max: 23, dialStartAngle: 180, dialEndAngle: 0});
     speedGauge = Gauge(document.getElementById("speedGauge"), {max: 250, dialStartAngle: 180, dialEndAngle: 0});
     rpmGauge = Gauge(document.getElementById("rpmGauge"), {max: 9000, dialStartAngle: 180, dialEndAngle: 0});
     batGauge = Gauge(document.getElementById("batGauge"), {max: 15, dialStartAngle: 180, dialEndAngle: 0, label: function(value) {return Math.round(value * 100) / 100}});
@@ -128,7 +128,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     var cursor = event.target.result;
 
                     if (cursor && logTimestamp) {
-			objectStore.delete(cursor.primaryKey);
+                        objectStore.delete(cursor.primaryKey);
                         cursor.continue();
                     } else if (logIndex < dayLogs.length) {
                         logTimestamp = dayLogs[++logIndex];
