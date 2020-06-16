@@ -378,7 +378,7 @@ function getECUData() {
 function update(values) {
     if (values == null) {
         waterTempGauge.setValue(0);
-        tpsGauge.setValue(0);
+        afrGauge.setValue(0);
         speedGauge.setValue(0);
         rpmGauge.setValue(0);
         batGauge.setValue(0);
