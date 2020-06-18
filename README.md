@@ -1,6 +1,14 @@
-# Adaptronic e420d ESP32 Data Dash
+# Adaptronic e420d ESP32 Data Dash 🏎️
 
-A **digital dashboard** for displaying and logging internal combustion engine electronic fuel injection (EFI) data from the programmable **Adaptronic e420d** engine control unit (ECU).
+<img align="right" src="./doc/dashboard-animated.gif?raw=true">
+
+A **digital dashboard** for displaying and logging internal combustion engine electronic fuel injection (EFI) data from the programmable **[Adaptronic e420d](https://www.google.com/search?tbm=isch&q=Adaptronic+e420d)** engine control unit (ECU).
+
+- [Progressive Web App (PWA)](https://en.wikipedia.org/wiki/Progressive_web_application) dashboard
+- Data logged in [IndexedDB](https://en.wikipedia.org/wiki/Indexed_Database_API)
+- Data downloadable from dashboard in [CSV](https://en.wikipedia.org/wiki/Comma-separated_values) format
+- ECU communication using an [ESP32](https://en.wikipedia.org/wiki/ESP32)
+- GPS coordinates acquired by an [Adafruit Ultimate GPS Breakout v3](https://www.adafruit.com/product/746)
 
 ![Contributions welcome](https://img.shields.io/badge/contributions-welcome-orange.svg)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
