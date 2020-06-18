@@ -2,7 +2,7 @@
 
 <img align="right" src="./doc/dashboard-animated.gif?raw=true">
 
-A **digital dashboard** for displaying and logging internal combustion engine electronic fuel injection (EFI) data from the programmable **[Adaptronic e420d](https://www.google.com/search?tbm=isch&q=Adaptronic+e420d)** engine control unit (ECU).
+A **digital dashboard** for displaying and logging internal combustion engine electronic fuel injection (EFI) data from the programmable [Adaptronic e420d](https://www.google.com/search?tbm=isch&q=Adaptronic+e420d) engine control unit (ECU).
 
 - [Progressive Web App (PWA)](https://en.wikipedia.org/wiki/Progressive_web_application) dashboard
 - Data logged in [IndexedDB](https://en.wikipedia.org/wiki/Indexed_Database_API)
