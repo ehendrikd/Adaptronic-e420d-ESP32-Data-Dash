@@ -14,16 +14,34 @@ A platform agnostic **digital dashboard** for displaying and logging internal co
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![PWA Shields](https://www.pwa-shields.com/1.0.0/series/install/purple.svg)](https://ehendrikd.github.io/Adaptronic-e420d-ESP32-Data-Dash/dash/html)
 
-## Dashboard Demo & Installation
+## Dashboard demo & installation
 
 [Demo the PWA dashboard](https://ehendrikd.github.io/dashboard-demo) with simulated ECU and GPS data via the checkboxes at the top of the page. The logged data can be downloaded via the drop down lists at the bottom of the dashboard when the *ignition is off*.
 <!--
-[Install the PWA dashboard](https://ehendrikd.github.io/Adaptronic-e420d-ESP32-Data-Dash/dash/html) on [Chrome for Desktop](https://support.google.com/chrome/answer/9658361?co=GENIE.Platform%3DDesktop&hl=en&oco=1), [Chrome for Android](https://support.google.com/chrome/answer/9658361?co=GENIE.Platform%3DAndroid&hl=en&oco=1), 
-
-## System Design
-
-### ESP32
+<img align="right" src="https://img.youtube.com/vi/JcmNZFP9-5Q/hqdefault.jpg" style="height: 50%; width: 50%;">
 -->
+[Install the PWA dashboard](https://ehendrikd.github.io/Adaptronic-e420d-ESP32-Data-Dash/dash/html) on a supported browser:
+
+- Safari for iOS (iPhone, iPad) - [show me how](https://www.macrumors.com/how-to/add-a-web-link-to-home-screen-iphone-ipad)
+- Google Chrome for Android - [show me how](https://support.google.com/chrome/answer/9658361?co=GENIE.Platform%3DAndroid&hl=en&oco=1)
+- Mozilla Firefox for Android - [show me how](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Add_to_home_screen)
+- Google Chrome for Desktop (Windows, macOS, Linux) - [show me how](https://support.google.com/chrome/answer/9658361?co=GENIE.Platform%3DDesktop&hl=en&oco=1)
+- Microsoft Edge for Windows - [show me how](https://docs.microsoft.com/en-us/microsoft-edge/progressive-web-apps-chromium/#pwas-on-microsoft-edge-chromium)
+
+<!--
+## Use in the wild
+
+[![Watch the video](https://img.youtube.com/vi/JcmNZFP9-5Q/hqdefault.jpg)](https://www.youtube.com/watch?v=JcmNZFP9-5Q)
+-->
+<!--
+# Implementation
+
+The system is comprised of two main components, the *digital dashoard* software and the *data acquisition unit* (DAU), or black box that contains all the electronic bits.
+
+## Digital dashboard
+
+## DAU
+->
 <!--
 # Adaptronic-e420d-ESP32-Data-Dash
 
