@@ -5,6 +5,7 @@
 A platform agnostic **digital dashboard** for displaying and logging internal combustion engine electronic fuel injection (EFI) data from the programmable [Adaptronic e420d](https://www.google.com/search?tbm=isch&q=Adaptronic+e420d) engine control unit (ECU).
 
 - [Progressive Web App (PWA)](https://en.wikipedia.org/wiki/Progressive_web_application) dashboard
+- Lightweight vanilla JavaScript, except for the [SVG gauges](https://github.com/naikus/svg-gauge)
 - Data logged in [IndexedDB](https://en.wikipedia.org/wiki/Indexed_Database_API)
 - Data downloadable from dashboard in [CSV](https://en.wikipedia.org/wiki/Comma-separated_values) format
 - ECU communication using the [ESP32](https://en.wikipedia.org/wiki/ESP32) [Arduino core](https://github.com/espressif/arduino-esp32)
