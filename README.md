@@ -10,6 +10,7 @@ A platform agnostic **digital dashboard** for displaying and logging internal co
 - Data downloadable from dashboard in [CSV](https://en.wikipedia.org/wiki/Comma-separated_values) format
 - ECU communication using the [ESP32](https://en.wikipedia.org/wiki/ESP32) [Arduino core](https://github.com/espressif/arduino-esp32)
 - GPS coordinates acquired by an [Adafruit Ultimate GPS Breakout v3](https://www.adafruit.com/product/746)
+- Dashboard to ESP32 communication via inbuilt ESP32 WiFi hotspot
 
 [![Contributions welcome](https://img.shields.io/badge/contributions-welcome-orange.svg)](https://github.com/ehendrikd/Adaptronic-e420d-ESP32-Data-Dash/pulls)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
