@@ -50,7 +50,7 @@ Ardunio sketch for ESP32 that reads data from an Adaptronic e420d ECU. This is a
 -->
 # Wiring
 
-![Wiring](wiring.png)
+![Wiring](doc/wiring.png)
 <!--
 # Todo
 
