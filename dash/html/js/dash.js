@@ -389,7 +389,7 @@ function update(values) {
     }
 
     var newWaterTemp = values['wt'] == 128 ? 0 : values['wt']; // 128 is undefined from ECU
-    var newAfr = values['afr'] == 255 ? 0 : values['afr']; // 255 is undefined from ECU
+    var newAfr = values['afr'] == 255 ? 0 : values['afr'] / 10.0; // 255 is undefined from ECU
     var hasFix = values['gpsFix'] == 1;
     var newGpsSpeed = hasFix ? values['gpsSpeed'] * 1.852 : 0; // Convert knots to km/h
     var newRpm = values['rpm'];

@@ -75,7 +75,9 @@ UInt16 MAP = 0;
 UInt16 MAT = 0;   
 UInt16 WT = 0; // Water temp  
 UInt16 AUXT = 0;
+UInt16 REFAFR = 0;
 UInt16 AFR = 0;
+UInt16 KNOCK = 0;
 UInt16 TPS = 0;
 UInt16 BAT = 0;
 UInt16 FUEL = 0; // Fuel sender
@@ -247,14 +249,16 @@ void loop() {
     if (crcReadValue == crcCalcReadValue) {
       DEBUG_PRINTLN("CRC OK");
 
-      RPM = bytesToInt(dataRead[REG_START], dataRead[REG_START + 1]); 		// Register 4096
-      MAP = bytesToInt(dataRead[REG_START + 2], dataRead[REG_START + 3]);	// Register 4097
-      MAT = bytesToInt(dataRead[REG_START + 4], dataRead[REG_START + 5]);	// Register 4098
-      WT = bytesToInt(dataRead[REG_START + 6], dataRead[REG_START + 7]);	// Register 4099
-      AUXT = bytesToInt(dataRead[REG_START + 8], dataRead[REG_START + 9]);	// Register 4100
-      AFR = bytesToInt(dataRead[REG_START + 10], dataRead[REG_START + 11]);	// Register 4101
-      TPS = bytesToInt(dataRead[REG_START + 14], dataRead[REG_START + 15]);	// Register 4103
-      BAT = bytesToInt(dataRead[REG_START + 18], dataRead[REG_START + 19]);	// Register 4105
+      RPM = bytesToInt(dataRead[REG_START], dataRead[REG_START + 1]); 			// Register 4096
+      MAP = bytesToInt(dataRead[REG_START + 2], dataRead[REG_START + 3]);		// Register 4097
+      MAT = bytesToInt(dataRead[REG_START + 4], dataRead[REG_START + 5]);		// Register 4098
+      WT = bytesToInt(dataRead[REG_START + 6], dataRead[REG_START + 7]);		// Register 4099
+      AUXT = bytesToInt(dataRead[REG_START + 8], dataRead[REG_START + 9]);		// Register 4100
+      REFAFR = (UInt16)dataRead[REG_START + 10];								// Register 4100
+      AFR = (UInt16)dataRead[REG_START + 11];
+      KNOCK = bytesToInt(dataRead[REG_START + 12], dataRead[REG_START + 13]);	// Register 4102
+      TPS = bytesToInt(dataRead[REG_START + 14], dataRead[REG_START + 15]);		// Register 4103
+      BAT = bytesToInt(dataRead[REG_START + 18], dataRead[REG_START + 19]);		// Register 4105
       FUEL = (UInt16)readFuelSensor();
 
       DEBUG_PRINTLN(String("FUEL: ") + FUEL);
@@ -295,7 +299,9 @@ void loop() {
                 String("\"map\":") + String(MAP) + String(",") +
                 String("\"mat\":") + String(MAT) + String(",") +
                 String("\"auxt\":") + String(AUXT) + String(",") +
+                String("\"refafr\":") + String(REFAFR) + String(",") +
                 String("\"afr\":") + String(AFR) + String(",") +
+                String("\"knock\":") + String(KNOCK) + String(",") +
                 String("\"gpsFix\":") + String(gpsFix) + 
                   (gpsFix ? (
                     String(",") +
